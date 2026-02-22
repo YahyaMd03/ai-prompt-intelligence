@@ -56,7 +56,7 @@ export function App() {
   const [prompt, setPrompt] = useState("");
   const [options, setOptions] = useState<PromptOptions>(emptyOptions);
   const [script, setScript] = useState("");
-  const [hasEnhancedOnce, setHasEnhancedOnce] = useState(false);
+  const [, setHasEnhancedOnce] = useState(false);
   const [enhanceSuccessMessage, setEnhanceSuccessMessage] = useState(false);
   const [status, setStatus] = useState<Record<string, ActionState>>({
     extract: "idle",
