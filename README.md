@@ -1,6 +1,6 @@
 # AI Prompt Intelligence
 
-Offline assessment app: **Prompt Processing** that extracts structured options from a user prompt, handles partial data, enhances the prompt via Groq, and generates a cinematic video script.
+**Prompt to Script** — extract structured options from a prompt, enhance it with AI (Groq), and generate a cinematic video script. Handles partial input and supports common platforms and formats.
 
 ## Stack
 
@@ -13,27 +13,29 @@ Offline assessment app: **Prompt Processing** that extracts structured options f
 - **Layered backend**: api → application → domain, with infrastructure (repository, Groq provider, logging) so new features don’t cause widespread impact and the system stays testable.
 - **Schema-first API**: All request/response payloads are defined with Pydantic; validation and serialization are consistent and type-safe.
 - **Groq with mock fallback**: Live Groq is used when `GROQ_API_KEY` is set; otherwise a deterministic mock provider is used so the app and tests run without API keys.
-- **No auth in v1**: Single workflow with history persisted in Postgres; no user accounts.
+- **Stateless API**: Workflow and history stored in Postgres; no user accounts or authentication.
 - **Project-scoped AI guidance**: Cursor rules and skills live in `.cursor/rules/` and `.cursor/skills/` and are committed so all contributors and AI-assisted edits follow the same constraints.
 
 ## Prerequisites
 
 - Python 3.11+, Node 18+, Postgres (or use Docker Compose).
-- Optional: [Groq API key](https://console.groq.com/) for live extraction/enhancement/script generation.
+- [Groq API key](https://console.groq.com/) for live extraction/enhancement/script generation.
 
 ## Quick Start
 
 1. **Env (separate per app)**
-   - **Backend**: `cp backend/.env.example backend/.env` and set `DATABASE_URL`, optionally `GROQ_API_KEY`.
+   - **Backend**: `cp backend/.env.example backend/.env` and set `DATABASE_URL`, `GROQ_API_KEY`.
    - **Frontend**: `cp frontend/.env.example frontend/.env` and set `VITE_API_BASE_URL` if the API is not at `http://localhost:5000/api/v1`.
    - **Docker Compose** uses a single root `.env` (copy from root `.env.example` if you use Compose).
 
 2. **With Docker Compose**
+
    ```bash
    docker compose up
    ```
-   - Frontend: http://localhost:5173  
-   - Backend: http://localhost:5000  
+
+   - Frontend: http://localhost:5173
+   - Backend: http://localhost:5000
    - Postgres: localhost:5432 (user `postgres`, db `prompt_intelligence`)
 
 3. **Local run (no Docker)**
@@ -76,8 +78,8 @@ Offline assessment app: **Prompt Processing** that extracts structured options f
 - [AI governance (Cursor rules & skills)](docs/ai-governance.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-## Limitations and Risks
+## Security and operations
 
-- No authentication; anyone with network access can call the API and create runs.
-- Groq live provider is subject to rate limits and availability; mock is used when key is missing or on failure.
-- History is stored indefinitely in Postgres; consider retention or cleanup for production.
+- The API does not require authentication; protect it with a reverse proxy or network rules if needed.
+- Groq is subject to rate limits and availability; a mock provider is used when the API key is missing or on failure.
+- Run history is stored in Postgres; configure retention or cleanup as needed for your environment.

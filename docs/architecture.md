@@ -20,4 +20,4 @@
 2. User may edit options → Enhance Prompt → backend updates options, calls Groq, updates current_prompt, returns enhanced_prompt (refills Prompt Box).
 3. User may edit prompt → Generate Video Script → backend calls Groq, stores script, returns script (displayed in script panel).
 
-History is persisted per run; no auth in v1.
+History is persisted per run; there is no user authentication (runs are identified by run_id and optional session).
