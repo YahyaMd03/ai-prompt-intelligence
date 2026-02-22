@@ -1,0 +1,11 @@
+---
+description: Generated code must be reviewed, validated, and tested
+alwaysApply: true
+---
+
+# AI-Assisted Change Safety
+
+- All AI-suggested or generated code must be reviewed for correctness and alignment with project rules (architecture, schemas, tests, observability).
+- After any generated change, run the relevant tests and linters; fix any regressions before committing.
+- Do not commit generated code that skips validation (e.g. disabling type checks or tests) or that introduces hardcoded secrets or placeholder credentials.
+- Prefer small, reviewable edits; break large refactors into steps with passing tests between steps.

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-intelligence-backend"
+version = "0.1.0"
+description = "Flask API for AI Prompt Intelligence"
+requires-python = ">=3.11"
+dependencies = [
+  "flask",
+  "flask-cors",
+  "pydantic",
+  "pydantic-settings",
+  "psycopg[binary]",
+  "python-json-logger",
+  "requests"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "ruff"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --cov=app --cov-report=term-missing"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]

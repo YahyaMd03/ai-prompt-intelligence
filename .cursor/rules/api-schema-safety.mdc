@@ -1,0 +1,12 @@
+---
+description: Schema-first request/response discipline for the API
+globs: backend/app/api/**/*.py
+alwaysApply: false
+---
+
+# API Schema Safety
+
+- Validate all request bodies with Pydantic models (e.g. `ExtractOptionsRequest.model_validate(request.get_json(force=True))`).
+- Return JSON using `model_dump(mode="json")` for response models so enums and UUIDs serialize correctly.
+- Use explicit schemas in `app.api.schemas` for every endpoint payload. Do not return raw dicts from domain or repository without mapping to a schema.
+- On validation failure return 400 with a consistent shape (e.g. `{"error": "Invalid request", "details": str(exc)}`).

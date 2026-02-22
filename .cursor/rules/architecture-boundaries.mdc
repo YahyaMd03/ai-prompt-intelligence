@@ -1,0 +1,14 @@
+---
+description: Enforce layer separation and no cross-layer leakage in the backend
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Architecture Boundaries
+
+- **api**: Flask blueprints, request/response schemas (Pydantic). No direct DB or Groq calls.
+- **application**: Use-cases only. Depends on domain + infrastructure interfaces. No Flask or HTTP.
+- **domain**: Entities, enums, validation rules, error types. No imports from api, application, or infrastructure.
+- **infrastructure**: Repository, Groq provider, logging. Implements interfaces used by application.
+
+Do not import from a higher layer into a lower layer (e.g. api must not import from application except via clear use-case entry points). Application layer must not import Flask or request objects.

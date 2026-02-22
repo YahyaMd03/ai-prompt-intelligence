@@ -1,0 +1,12 @@
+---
+description: Structured logs, error context, and trace IDs
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Observability Requirements
+
+- Use structured logging (e.g. `logger.info("message", extra={...})`) with consistent keys: `request_id`, `path`, and operation-specific context.
+- Attach a request ID in `before_request` (from `X-Request-ID` header or generate UUID) and use it in log extras.
+- On failure paths log at appropriate level (warning for client errors, error for server/provider failures) and include enough context to diagnose (e.g. error message, endpoint).
+- Do not swallow exceptions without logging; re-raise or return a defined error response with a logged cause.

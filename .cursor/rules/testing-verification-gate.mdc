@@ -1,0 +1,12 @@
+---
+description: New behavior must be covered by tests or checks
+globs: "**/*.{py,ts,tsx}"
+alwaysApply: false
+---
+
+# Testing and Verification Gate
+
+- New or changed API endpoints must have at least one test in `backend/tests/api/` or `frontend/src/**/*.test.*`.
+- New application or domain logic should have unit tests in `backend/tests/unit/` or equivalent frontend tests.
+- When fixing a bug, add a test that would have caught it.
+- Run `pytest` (backend) and `npm run test` (frontend) before considering a change complete.
