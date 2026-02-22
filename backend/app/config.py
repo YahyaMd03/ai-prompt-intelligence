@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     groq_api_key: str = Field(default="", alias="GROQ_API_KEY")
     groq_model: str = Field(default="llama-3.3-70b-versatile", alias="GROQ_MODEL")
     groq_timeout_seconds: int = Field(default=15, alias="GROQ_TIMEOUT_SECONDS")
+    enable_prompt_guard: bool = Field(default=False, alias="ENABLE_PROMPT_GUARD")
 
 
 def get_settings() -> Settings:

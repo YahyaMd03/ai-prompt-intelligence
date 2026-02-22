@@ -519,7 +519,12 @@ export function App() {
         </section>
       </div>
 
-      {error && <p className="error">Error: {error}</p>}
+      {error && (
+        <p className="error">
+          Error: {error}
+          <span className="error-hint"> Try again or rephrase your prompt.</span>
+        </p>
+      )}
     </div>
   );
 }

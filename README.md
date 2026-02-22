@@ -81,5 +81,6 @@
 ## Security and operations
 
 - The API does not require authentication; protect it with a reverse proxy or network rules if needed.
+- Prompt injection is mitigated by hardened system prompts and optional input filtering; user input is never treated as system instructions. Optionally set `ENABLE_PROMPT_GUARD=true` in the backend to reject prompts containing obvious injection phrases.
 - Groq is subject to rate limits and availability; a mock provider is used when the API key is missing or on failure.
 - Run history is stored in Postgres; configure retention or cleanup as needed for your environment.

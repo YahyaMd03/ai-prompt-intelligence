@@ -818,6 +818,11 @@ body {
   font-size: 0.875rem;
 }
 
+.error .error-hint {
+  color: #991b1b;
+  opacity: 0.9;
+}
+
 .hint {
   margin-top: 1rem;
   font-size: 0.875rem;

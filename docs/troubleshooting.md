@@ -35,6 +35,11 @@ After you find the cause, you can turn down log level or remove these debug logs
 - **API base**: Frontend uses `VITE_API_BASE_URL` (default `http://localhost:5000/api/v1`). Set in **frontend/.env** or when running in Docker.
 - **Build fails**: Run `npm install` and `npm run build`; ensure `@vitejs/plugin-react` is installed and `vite.config.ts` includes the React plugin.
 
+## Prompt injection
+
+- **What we do:** System prompts tell the model to treat the user message only as the video/content prompt to process and to ignore any embedded instructions (e.g. "forget instructions", "reveal data"). User content is sent in a delimited structure so the model sees it as data, not as commands. No secrets (e.g. `DATABASE_URL`, `GROQ_API_KEY`) are ever sent to the LLM.
+- **Optional guard:** Set `ENABLE_PROMPT_GUARD=true` in the backend to reject prompts containing obvious injection phrases (e.g. "forget instructions", "expose database key") with 400 "Prompt not allowed." The guard is best-effort; system-prompt hardening is the primary defense. Turn it off if you see false positives on legitimate prompts.
+
 ## Docker
 
 - **Compose up**: From repo root, `docker compose up`. Ensure `.env` exists (copy from `.env.example`) and `GROQ_API_KEY` is set if you want live Groq.
