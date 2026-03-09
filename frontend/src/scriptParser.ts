@@ -15,9 +15,12 @@ export type ParsedScene = {
 // Only split at line-start "Scene N" so "Cut from Scene 2" in transition text doesn't create extra scenes
 const SCENE_SPLIT = /(?=\n\s*\*{0,2}Scene\s+\d+\s*:?)/i;
 
-// Boundary: next bullet label or next scene header (stops capture for getLabelContent)
+// Boundary: next label line (bullet or plain) or next scene header (stops capture for getLabelContent)
+// Supports both:
+// - "* Mood: ..." (bullet style)
+// - "Mood: ..."   (plain style)
 const NEXT_LABEL_OR_SCENE =
-  /\n\s*(?:\*\s+(?:Visuals?|Visual direction|Narration|Mood|Camera\/shot cues|Transition|Cinematic)|\*\*Scene\s+\d+)/i;
+  /\n\s*(?:(?:\*\s+)?(?:Visuals?|Visual direction|Narration(?:\s*\([^)]*\))?|Mood|Camera\/shot cues?|Transition|Cinematic(?:\s+Direction)?)\s*:|\*{0,2}Scene\s+\d+\s*:)/i;
 
 function getLabelContent(block: string, labelPattern: RegExp): string {
   const match = block.match(labelPattern);

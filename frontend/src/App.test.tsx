@@ -20,7 +20,7 @@ describe("Prompt workflow page", () => {
 
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /Create a 30 second kids/ }));
-    fireEvent.click(screen.getByRole("button", { name: /Extract options/i }));
+    fireEvent.click(screen.getByRole("button", { name: /send/i }));
 
     await waitFor(() => {
       expect(screen.getByDisplayValue("30")).toBeInTheDocument();
@@ -49,17 +49,27 @@ describe("Prompt workflow page", () => {
 
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /Create a 30 second kids/ }));
-    fireEvent.click(screen.getByRole("button", { name: /Extract options/i }));
+    fireEvent.click(screen.getByRole("button", { name: /send/i }));
 
-    await waitFor(() => expect(screen.getByRole("button", { name: /Enhance prompt/i })).toBeEnabled());
-    fireEvent.click(screen.getByRole("button", { name: /Enhance prompt/i }));
+    await waitFor(() =>
+      expect(screen.getByText(/what duration would you like/i)).toBeInTheDocument(),
+    );
 
-    await waitFor(() => {
-      const generateBtns = screen.getAllByRole("button", { name: /Generate video script/i });
-      expect(generateBtns.length).toBeGreaterThan(0);
-      expect(generateBtns[0]).toBeEnabled();
-    });
-    fireEvent.click(screen.getAllByRole("button", { name: /Generate video script/i })[0]);
+    fireEvent.change(screen.getByLabelText("Message input"), { target: { value: "30" } });
+    fireEvent.click(screen.getByRole("button", { name: /send/i }));
+
+    fireEvent.change(screen.getByLabelText("Language"), { target: { value: "english" } });
+    fireEvent.change(screen.getByLabelText("Platform"), { target: { value: "youtube" } });
+    fireEvent.change(screen.getByLabelText("Size"), { target: { value: "vertical" } });
+    fireEvent.change(screen.getByLabelText("Category"), { target: { value: "kids" } });
+
+    await waitFor(() =>
+      expect(screen.getByText(/Enhanced prompt text/)).toBeInTheDocument(),
+    );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /use enhanced & generate/i }),
+    );
 
     await waitFor(() => expect(screen.getByText(/Scene 1/)).toBeInTheDocument());
   });
